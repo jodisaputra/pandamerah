@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
+import NotFound from '../views/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -16,23 +16,23 @@ const router = createRouter({
       component: Login
     },
     {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  // If logged in and trying to access login or register, redirect to dashboard
-  if (token && (to.path === '/login' || to.path === '/register')) {
+  // If logged in and trying to access login, redirect to dashboard
+  if (token && to.path === '/login') {
     next('/dashboard')
     return
   }

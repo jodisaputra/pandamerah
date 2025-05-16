@@ -1,12 +1,13 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-xl-6 col-lg-8 col-md-10">
+      <div class="col-xl-10 col-lg-12 col-md-9">
         <div class="card o-hidden border-0 shadow-lg my-5">
           <div class="card-body p-0">
-            <div class="row justify-content-center">
-              <div class="col-lg-10">
-                <div class="p-5">
+            <div class="row align-items-center min-vh-50" style="min-height: 500px;">
+              <div class="col-lg-6 d-none d-lg-flex login-bg-cover"></div>
+              <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                <div class="p-5 w-100">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
@@ -44,9 +45,6 @@
                     </button>
                   </form>
                   <hr />
-                  <div class="text-center">
-                    <router-link class="small" to="/register">Create an Account!</router-link>
-                  </div>
                 </div>
               </div>
             </div>
@@ -77,9 +75,15 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-.bg-login-image {
-  background: url('https://source.unsplash.com/K4mSJ7kc0As/600x800');
-  background-position: center;
+.login-bg-cover {
+  background: url('../assets/img/pandamerah-white.png') center center no-repeat;
   background-size: cover;
+  width: 100%;
+  min-height: 500px;
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+.card {
+  border-radius: 0.75rem;
 }
 </style> 
