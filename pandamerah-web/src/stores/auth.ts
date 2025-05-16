@@ -1,40 +1,88 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import type { AuthState, LoginCredentials, RegisterData, AuthResponse } from '../types/auth'
+import { API_CONFIG } from '../config/api'
+import { jwtDecode } from 'jwt-decode'
+
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+interface AuthState {
+  user: User | null
+  token: string | null
+  loading: boolean
+  error: string | null
+}
+
+function getUserFromToken(token: string | null): User | null {
+  if (!token) return null
+  try {
+    const decoded: any = jwtDecode(token)
+    return {
+      id: decoded.id,
+      name: decoded.name || decoded.email || 'User',
+      email: decoded.email,
+    }
+  } catch {
+    return null
+  }
+}
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
-    user: null,
-    token: localStorage.getItem('token') || null,
-    isAuthenticated: !!localStorage.getItem('token')
+    user: getUserFromToken(localStorage.getItem('token')),
+    token: localStorage.getItem('token'),
+    loading: false,
+    error: null
   }),
 
   actions: {
-    async login(credentials: LoginCredentials): Promise<AuthResponse> {
+    async login(email: string, password: string) {
+      this.loading = true
+      this.error = null
       try {
-        const response = await axios.post<AuthResponse>('http://localhost:3000/api/auth/login', credentials)
-        this.token = response.data.token
+        const response = await axios.post(`${API_CONFIG.baseURL}/auth/login`, {
+          email,
+          password
+        })
         this.user = response.data.user
-        this.isAuthenticated = true
+        this.token = response.data.token
         localStorage.setItem('token', response.data.token)
-        return response.data
-      } catch (error) {
-        throw error
+        return true
+      } catch (error: any) {
+        this.error = error.response?.data?.message || 'An error occurred'
+        return false
+      } finally {
+        this.loading = false
       }
     },
 
-    async register(userData: RegisterData): Promise<void> {
+    async register(name: string, email: string, password: string) {
+      this.loading = true
+      this.error = null
       try {
-        await axios.post('http://localhost:3000/api/auth/register', userData)
-      } catch (error) {
-        throw error
+        const response = await axios.post(`${API_CONFIG.baseURL}/auth`, {
+          name,
+          email,
+          password
+        })
+        this.user = response.data.user
+        this.token = response.data.token
+        localStorage.setItem('token', response.data.token)
+        return true
+      } catch (error: any) {
+        this.error = error.response?.data?.message || 'An error occurred'
+        return false
+      } finally {
+        this.loading = false
       }
     },
 
-    logout(): void {
-      this.token = null
+    logout() {
       this.user = null
-      this.isAuthenticated = false
+      this.token = null
       localStorage.removeItem('token')
     }
   }

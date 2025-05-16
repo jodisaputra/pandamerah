@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
         const token = jwt.sign(
-            { id: (user as any).id, email: (user as any).email },
+            { id: (user as any).id, email: (user as any).email, name: (user as any).name },
             process.env.JWT_SECRET || 'password',
             { expiresIn: '1h' }
         );
@@ -47,7 +47,7 @@ export const register = async (req: Request, res: Response) => {
         });
         const userTyped = user as any; // or as User & { id: number; email: string }
         const token = jwt.sign(
-            { id: userTyped.id, email: userTyped.email },
+            { id: userTyped.id, email: userTyped.email, name: userTyped.name },
             process.env.JWT_SECRET || 'password',
             { expiresIn: '1h' }
         );

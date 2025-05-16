@@ -1,68 +1,65 @@
 <template>
-  <v-app>
-    <!-- Navigation Drawer -->
-    <v-navigation-drawer v-model="drawer" app>
-      <v-list>
-        <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/men/78.jpg"
-          :title="authStore.user?.name"
-        ></v-list-item>
-      </v-list>
-
-      <v-divider></v-divider>
-
-      <v-list density="compact" nav>
-        <v-list-item
-          prepend-icon="mdi-view-dashboard"
-          title="Dashboard"
-          value="dashboard"
-          to="/"
-        ></v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <!-- App Bar -->
-    <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>PandaMerah</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon @click="handleLogout">
-        <v-icon>mdi-logout</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <!-- Main Content -->
-    <v-main>
-      <v-container fluid>
-        <v-row>
-          <v-col cols="12">
-            <v-card>
-              <v-card-title>Welcome to PandaMerah Dashboard</v-card-title>
-              <v-card-text>
-                <p>You are successfully logged in!</p>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+  <div id="wrapper">
+    <Sidebar :onToggleSidebar="toggleSidebar" :sidebarToggled="sidebarToggled" />
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <Navbar @logout="handleLogout" :onToggleSidebar="toggleSidebar" :sidebarToggled="sidebarToggled" :userName="authStore.user?.name || ''" />
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+          </div>
+          <!-- Content Row -->
+          <div class="row">
+            <!-- Welcome Card -->
+            <div class="col-xl-12 col-md-12 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Welcome
+                      </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        {{ authStore.user?.name }}
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import Sidebar from '../components/Sidebar.vue'
+import Navbar from '../components/Navbar.vue'
+import Footer from '../components/Footer.vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
-const drawer = ref(true)
 
-const handleLogout = (): void => {
+const sidebarToggled = ref(false)
+const toggleSidebar = () => {
+  sidebarToggled.value = !sidebarToggled.value
+}
+
+const handleLogout = () => {
   authStore.logout()
   router.push('/login')
 }
-</script>
-
-<style>
-</style> 
+</script> 

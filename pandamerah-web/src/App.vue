@@ -1,16 +1,24 @@
 <script setup lang="ts">
-// No additional imports needed
+import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <v-app>
+  <div id="app">
     <router-view></router-view>
-  </v-app>
+  </div>
 </template>
 
 <style>
-body {
-  margin: 0;
-  padding: 0;
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import './assets/css/sb-admin-2.min.css';
+
+html, body {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+  background-color: #f8f9fc;
 }
 </style>
