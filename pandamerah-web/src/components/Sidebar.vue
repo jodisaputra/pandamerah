@@ -5,17 +5,17 @@
     :class="{ toggled: sidebarToggled }"
   >
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+    <router-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/dashboard">
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
       <div class="sidebar-brand-text mx-3">Pandamerah</div>
-    </a>
+    </router-link>
     <hr class="sidebar-divider my-0" />
-    <li class="nav-item active">
-      <a class="nav-link" href="#">
+    <li class="nav-item" :class="{ active: route.path === '/dashboard' }">
+      <router-link class="nav-link" to="/dashboard">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
+        <span>Dashboard</span></router-link>
     </li>
     <hr class="sidebar-divider" />
     <div class="sidebar-heading">Interface</div>
@@ -28,8 +28,8 @@
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Custom Components:</h6>
-          <a class="collapse-item" href="#">Buttons</a>
-          <a class="collapse-item" href="#">Cards</a>
+          <router-link class="collapse-item" to="#">Buttons</router-link>
+          <router-link class="collapse-item" to="#">Cards</router-link>
         </div>
       </div>
     </li>
@@ -43,10 +43,10 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Custom Utilities:</h6>
-          <a class="collapse-item" href="#">Colors</a>
-          <a class="collapse-item" href="#">Borders</a>
-          <a class="collapse-item" href="#">Animations</a>
-          <a class="collapse-item" href="#">Other</a>
+          <router-link class="collapse-item" to="#">Colors</router-link>
+          <router-link class="collapse-item" to="#">Borders</router-link>
+          <router-link class="collapse-item" to="#">Animations</router-link>
+          <router-link class="collapse-item" to="#">Other</router-link>
         </div>
       </div>
     </li>
@@ -61,27 +61,24 @@
       <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Login Screens:</h6>
-          <a class="collapse-item" href="#">Login</a>
-          <a class="collapse-item" href="#">Register</a>
-          <a class="collapse-item" href="#">Forgot Password</a>
+          <router-link class="collapse-item" to="/login">Login</router-link>
           <div class="collapse-divider"></div>
           <h6 class="collapse-header">Other Pages:</h6>
-          <a class="collapse-item" href="#">404 Page</a>
-          <a class="collapse-item" href="#">Blank Page</a>
+          <router-link class="collapse-item" to="/404">404 Page</router-link>
         </div>
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <router-link class="nav-link" to="#">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Charts</span>
-      </a>
+      </router-link>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <router-link class="nav-link" to="#">
         <i class="fas fa-fw fa-table"></i>
         <span>Tables</span>
-      </a>
+      </router-link>
     </li>
     <hr class="sidebar-divider d-none d-md-block" />
     <div class="text-center d-none d-md-inline">
@@ -91,7 +88,9 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router'
 const props = defineProps<{ onToggleSidebar: () => void, sidebarToggled: boolean }>()
+const route = useRoute()
 </script>
 
 <style scoped>

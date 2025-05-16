@@ -13,7 +13,7 @@ interface AuthState {
   user: User | null
   token: string | null
   loading: boolean
-  error: string | null
+  error: string | Record<string, string[]> | null
 }
 
 function getUserFromToken(token: string | null): User | null {
@@ -52,7 +52,11 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('token', response.data.token)
         return true
       } catch (error: any) {
-        this.error = error.response?.data?.message || 'An error occurred'
+        if (error.response?.data?.errors) {
+          this.error = error.response.data.errors
+        } else {
+          this.error = error.response?.data?.message || 'An error occurred'
+        }
         return false
       } finally {
         this.loading = false
