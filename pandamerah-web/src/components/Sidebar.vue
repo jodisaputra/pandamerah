@@ -17,6 +17,11 @@
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></router-link>
     </li>
+    <li class="nav-item" :class="{ active: route.path === '/menu-categories' }">
+      <router-link class="nav-link" to="/menu-categories">
+        <i class="fas fa-fw fa-list"></i>
+        <span>Menu Categories</span></router-link>
+    </li>
     <hr class="sidebar-divider" />
     <div class="sidebar-heading">Interface</div>
     <li class="nav-item">

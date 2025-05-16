@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import sequelize from './config/database';
 import authRoutes from './routes/authRoutes';
+import menuCategoryRoutes from './routes/menuCategoryRoutes';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -11,11 +13,16 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: true, // allow all origins
+  credentials: true
+}));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/menu-categories', menuCategoryRoutes);
 
 // Database connection and server start
 const startServer = async () => {

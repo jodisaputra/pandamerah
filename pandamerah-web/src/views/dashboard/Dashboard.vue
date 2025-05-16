@@ -44,11 +44,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Sidebar from '../components/Sidebar.vue'
-import Navbar from '../components/Navbar.vue'
-import Footer from '../components/Footer.vue'
+import Sidebar from '../../components/Sidebar.vue'
+import Navbar from '../../components/Navbar.vue'
+import Footer from '../../components/Footer.vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from '../../stores/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()

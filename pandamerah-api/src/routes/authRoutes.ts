@@ -1,12 +1,17 @@
 import express from 'express';
-import { getUsers, register, getUserById, login, updateUser } from '../controllers/authController';
+import { getUsers, register, getUserById, login, updateUser, refresh } from '../controllers/authController';
+import { authenticateJWT } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
-router.get('/', getUsers);
+// Public routes
 router.post('/', register);
-router.get('/:id', getUserById);
 router.post('/login', login);
-router.put('/:id', updateUser);
+router.post('/refresh', refresh);
+
+// Protected routes
+router.get('/', authenticateJWT, getUsers);
+router.get('/:id', authenticateJWT, getUserById);
+router.put('/:id', authenticateJWT, updateUser);
 
 export default router;

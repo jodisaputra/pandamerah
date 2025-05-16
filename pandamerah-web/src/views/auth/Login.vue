@@ -4,8 +4,10 @@
       <div class="col-xl-10 col-lg-12 col-md-9">
         <div class="card o-hidden border-0 shadow-lg">
           <div class="card-body p-0">
-            <div class="row align-items-center min-vh-50" style="min-height: 500px;">
-              <div class="col-lg-6 d-none d-lg-flex login-bg-cover"></div>
+            <div class="row align-items-center min-vh-50" style="min-height: 600px;">
+              <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center" style="background-color: #f8f9fc; min-height: 600px;">
+                <img :src="loginBg" alt="Panda Merah Logo" class="img-fluid" style="width: 120%; height: 120%; object-fit: contain; padding: 1rem; transform: scale(1.2);" />
+              </div>
               <div class="col-lg-6 d-flex align-items-center justify-content-center">
                 <div class="p-5 w-100">
                   <div class="text-center">
@@ -16,15 +18,25 @@
                   </div>
                   <form class="user" @submit.prevent="handleLogin">
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" v-model="email"
-                        placeholder="Enter Email Address..." />
+                      <input 
+                        type="email" 
+                        class="form-control form-control-user" 
+                        v-model="email"
+                        :class="{ 'is-invalid': authStore.error && typeof authStore.error === 'object' && authStore.error.email }"
+                        placeholder="Enter Email Address..." 
+                      />
                       <div v-if="authStore.error && typeof authStore.error === 'object' && authStore.error.email" class="text-danger small mt-1">
                         {{ Array.isArray(authStore.error.email) ? authStore.error.email[0] : authStore.error.email }}
                       </div>
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" v-model="password"
-                        placeholder="Password" />
+                      <input 
+                        type="password" 
+                        class="form-control form-control-user" 
+                        v-model="password"
+                        :class="{ 'is-invalid': authStore.error && typeof authStore.error === 'object' && authStore.error.password }"
+                        placeholder="Password" 
+                      />
                       <div v-if="authStore.error && typeof authStore.error === 'object' && authStore.error.password" class="text-danger small mt-1">
                         {{ Array.isArray(authStore.error.password) ? authStore.error.password[0] : authStore.error.password }}
                       </div>
@@ -53,7 +65,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from '../../stores/auth'
+import loginBg from '../../assets/img/pandamerah-white.png'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -70,15 +83,6 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-.login-bg-cover {
-  background: url('../assets/img/pandamerah-white.png') center center no-repeat;
-  background-size: cover;
-  width: 100%;
-  min-height: 500px;
-  border-top-left-radius: 0.75rem;
-  border-bottom-left-radius: 0.75rem;
-}
-
 .card {
   border-radius: 0.75rem;
 }

@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../views/Login.vue'
-import Dashboard from '../views/Dashboard.vue'
-import NotFound from '../views/NotFound.vue'
+import Login from '../views/auth/Login.vue'
+import Dashboard from '../views/dashboard/Dashboard.vue'
+import NotFound from '../views/not-found/NotFound.vue'
+import MenuCategory from '../views/menu-category/MenuCategory.vue'
+import MenuCategoryCreate from '../views/menu-category/MenuCategoryCreate.vue'
+import MenuCategoryEdit from '../views/menu-category/MenuCategoryEdit.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -20,6 +23,27 @@ const router = createRouter({
       name: 'Dashboard',
       component: Dashboard,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/menu-categories',
+      name: 'menu-categories',
+      component: MenuCategory,
+      meta: {
+        requiresAuth: true,
+        title: 'Menu Categories'
+      }
+    },
+    {
+      path: '/menu-categories/create',
+      name: 'menu-category-create',
+      component: MenuCategoryCreate,
+      meta: { requiresAuth: true, title: 'Create Menu Category' }
+    },
+    {
+      path: '/menu-categories/:id/edit',
+      name: 'menu-category-edit',
+      component: MenuCategoryEdit,
+      meta: { requiresAuth: true, title: 'Edit Menu Category' }
     },
     {
       path: '/:pathMatch(.*)*',

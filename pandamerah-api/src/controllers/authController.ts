@@ -3,6 +3,25 @@ import User from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'refresh_secret';
+const ACCESS_TOKEN_SECRET = process.env.JWT_SECRET || 'password';
+
+// Helper to generate tokens
+function generateAccessToken(user: any) {
+  return jwt.sign(
+    { id: user.id, email: user.email, name: user.name },
+    ACCESS_TOKEN_SECRET,
+    { expiresIn: '1h' }
+  );
+}
+function generateRefreshToken(user: any) {
+  return jwt.sign(
+    { id: user.id, email: user.email, name: user.name },
+    REFRESH_TOKEN_SECRET,
+    { expiresIn: '7d' }
+  );
+}
+
 export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
@@ -17,16 +36,32 @@ export const login = async (req: Request, res: Response) => {
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
-        const token = jwt.sign(
-            { id: (user as any).id, email: (user as any).email, name: (user as any).name },
-            process.env.JWT_SECRET || 'password',
-            { expiresIn: '1h' }
-        );
+        const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
+        // Set refresh token in HTTP-only cookie
+        res.cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+          maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
         const { password: _, ...userData } = user.toJSON();
-        res.json({ user: userData, token });
+        res.json({ user: userData, token: accessToken });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }
+};
+
+export const refresh = (req: Request, res: Response) => {
+  const token = req.cookies.refreshToken;
+  if (!token) return res.status(401).json({ message: 'No refresh token' });
+  try {
+    const user = jwt.verify(token, REFRESH_TOKEN_SECRET) as any;
+    const accessToken = generateAccessToken(user);
+    res.json({ token: accessToken });
+  } catch (err) {
+    res.status(401).json({ message: 'Invalid refresh token' });
+  }
 };
 
 export const getUsers = async (req: Request, res: Response) => {
