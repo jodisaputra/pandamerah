@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class MenuCategory extends Model
 {
-    protected $fillable = ['name', 'slug', 'status'];
+    protected $fillable = ['code', 'name', 'slug', 'status'];
 
     protected static function boot()
     {

@@ -22,7 +22,7 @@ class MenuCategoryService
         if (empty($data['slug'])) {
             $data['slug'] = $this->generateSlug($data['name']);
         }
-        
+        // 'code' will be mass assigned via $fillable
         return MenuCategory::create($data);
     }
 
@@ -31,7 +31,7 @@ class MenuCategoryService
         if (empty($data['slug'])) {
             $data['slug'] = $this->generateSlug($data['name']);
         }
-        
+        // 'code' will be mass assigned via $fillable
         $category->update($data);
         return $category;
     }

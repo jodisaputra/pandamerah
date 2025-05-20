@@ -21,6 +21,7 @@
                                 <th>Name</th>
                                 <th>Slug</th>
                                 <th>Status</th>
+                                <th>Code</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -58,6 +59,10 @@
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Code</label>
+                        <input type="text" class="form-control" name="code">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -99,6 +104,10 @@
                             <option value="inactive">Inactive</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Code</label>
+                        <input type="text" class="form-control" name="code" id="edit_code">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -123,6 +132,7 @@ $(document).ready(function() {
             {data: 'name', name: 'name'},
             {data: 'slug', name: 'slug'},
             {data: 'status', name: 'status'},
+            {data: 'code', name: 'code'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
@@ -205,11 +215,13 @@ $(document).ready(function() {
     $(document).on('click', '.edit-category', function() {
         $('#editForm')[0].reset(); // Reset form first
         var id = $(this).data('id');
+        var code = $(this).data('code');
         var name = $(this).data('name');
         var slug = $(this).data('slug');
         var status = $(this).data('status');
 
         $('#edit_id').val(id);
+        $('#edit_code').val(code);
         $('#edit_name').val(name);
         $('#edit_slug').val(slug);
         $('#edit_status').val(status);

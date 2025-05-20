@@ -1,5 +1,6 @@
 <button type="button" class="btn btn-sm btn-info edit-category" 
     data-id="{{ $row->id }}"
+    data-code="{{ $row->code }}"
     data-name="{{ $row->name }}"
     data-slug="{{ $row->slug }}"
     data-status="{{ $row->status }}">

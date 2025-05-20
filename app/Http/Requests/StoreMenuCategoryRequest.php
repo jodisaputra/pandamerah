@@ -14,6 +14,7 @@ class StoreMenuCategoryRequest extends FormRequest
     public function rules()
     {
         return [
+            'code' => 'required|string|max:255|unique:menu_categories,code',
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:menu_categories,slug',
             'status' => 'required|in:active,inactive',
@@ -23,6 +24,9 @@ class StoreMenuCategoryRequest extends FormRequest
     public function messages()
     {
         return [
+            'code.required' => 'Code is required',
+            'code.unique' => 'This code is already in use, please use a different one',
+            'code.max' => 'Code cannot exceed 255 characters',
             'name.required' => 'Category name is required',
             'name.max' => 'Category name cannot exceed 255 characters',
             'slug.required' => 'Slug is required',

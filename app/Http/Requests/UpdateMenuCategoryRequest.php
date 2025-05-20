@@ -15,6 +15,12 @@ class UpdateMenuCategoryRequest extends FormRequest
     public function rules()
     {
         return [
+            'code' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('menu_categories', 'code')->ignore($this->route('menuCategory')),
+            ],
             'name' => 'required|string|max:255',
             'slug' => [
                 'required',
@@ -29,6 +35,9 @@ class UpdateMenuCategoryRequest extends FormRequest
     public function messages()
     {
         return [
+            'code.required' => 'Code is required',
+            'code.unique' => 'This code is already in use, please use a different one',
+            'code.max' => 'Code cannot exceed 255 characters',
             'name.required' => 'Category name is required',
             'name.max' => 'Category name cannot exceed 255 characters',
             'slug.required' => 'Slug is required',
