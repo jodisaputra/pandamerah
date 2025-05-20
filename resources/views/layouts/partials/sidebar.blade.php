@@ -40,6 +40,18 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('menu-categories.index') }}" class="nav-link {{ request()->routeIs('menu-categories.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Menu Categories</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('menus.index') }}" class="nav-link {{ request()->routeIs('menus.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-utensils"></i>
+                        <p>Menus</p>
+                    </a>
+                </li>
                 <li class="nav-header">MISCELLANEOUS</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">

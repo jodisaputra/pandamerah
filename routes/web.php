@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuCategoryController;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,8 @@ Route::get('menu-categories/generateSlug', [MenuCategoryController::class, 'gene
 Route::post('menu-categories', [MenuCategoryController::class, 'store'])->name('menu-categories.store');
 Route::put('menu-categories/{menuCategory}', [MenuCategoryController::class, 'update'])->name('menu-categories.update');
 Route::delete('menu-categories/{menuCategory}', [MenuCategoryController::class, 'destroy'])->name('menu-categories.destroy');
+
+Route::resource('menus', MenuController::class)->except(['show']);
+Route::get('menus/generate-code', [MenuController::class, 'generateCode'])->name('menus.generateCode');
 
 Auth::routes(['register' => false, 'verify' => false, 'reset' => false]);

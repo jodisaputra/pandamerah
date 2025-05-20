@@ -16,6 +16,7 @@ class MenuCategoryController extends Controller
     public function __construct(MenuCategoryService $menuCategoryService)
     {
         $this->menuCategoryService = $menuCategoryService;
+        $this->middleware('auth');
     }
 
     public function index()
